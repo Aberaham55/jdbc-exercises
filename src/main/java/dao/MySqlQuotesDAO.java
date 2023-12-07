@@ -8,21 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlQuotesDAO {
-    private Connection connection = null;
-
-    public  void createConnection (){
-            try {
-                DriverManager.registerDriver(new Driver());
-                connection = DriverManager.getConnection(
-                        Config.getUrl(),
-                        Config.getUser(),
-                        Config.getPassword()
-                );
-            } catch (SQLException sqlx){
-                System.out.println("error connecting" + sqlx.getMessage());
-            }
-    }
+public class MySqlQuotesDAO extends MySQLAlbumsDAO {
+    protected Connection connection = null;
     public List<Quote> getQuotes () {
 
         List<Quote> quotes = new ArrayList<>();
@@ -43,16 +30,6 @@ public class MySqlQuotesDAO {
         return quotes;
     }
 
-    public void closeConnection () {
-        System.out.println("closing db connection");
-        if (connection != null){
-            try {
-                connection.close();
-            } catch (SQLException sqlx){
-                System.out.println(sqlx.getMessage());
-            }
-        }
-    }
 
     public long insertQuotes (){
 

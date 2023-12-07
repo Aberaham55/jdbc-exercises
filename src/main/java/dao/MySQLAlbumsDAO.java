@@ -2,8 +2,12 @@ package dao;
 
 import com.mysql.cj.jdbc.Driver;
 import config.Config;
+import models.Album;
+import models.Quote;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MySQLAlbumsDAO {
     private Connection connection = null;
@@ -27,7 +31,7 @@ public class MySQLAlbumsDAO {
     }
 
     public void createConnection() throws MySQLAlbumsException {
-        System.out.printf("Trying to connect... ");
+        System.out.print("Trying to connect... ");
         try {
             DriverManager.registerDriver(new Driver());
             connection = DriverManager.getConnection(
@@ -73,6 +77,115 @@ public class MySQLAlbumsDAO {
         } catch (SQLException sqlx) {
             // ignore this
         }
+    }
+
+    public List<Album> fetchAlbums() throws MySQLAlbumsException {
+        List<Album> albums = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Albums");
+            while (resultSet.next()){
+            albums.add(new Album(
+                    resultSet.getLong("id"),
+                    resultSet.getString("artist"),
+                    resultSet.getString("name"),
+                    resultSet.getInt("release_date"),
+                    resultSet.getDouble("sales"),
+                    resultSet.getString("genre")
+            ));
+
+        }
+        } catch (SQLException sqlx) {
+            System.out.println(sqlx.getMessage());
+        }
+
+        return albums;
+    }
+
+    public Album fetchAlbumById(long id) {
+        Album album = null;
+        try {
+            PreparedStatement st = connection.prepareStatement("select * from Albums " +
+                    " where id = ? ");
+            st.setLong(1, id);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+
+            album = new Album();
+            album.setId(rs.getLong("id"));
+            album.setArtist(rs.getString("artist"));
+            album.setName(rs.getString("name"));
+            album.setReleaseDate(rs.getInt("release_date"));
+            album.setSales(rs.getDouble("sales"));
+            album.setGenre(rs.getString("genre"));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // TODO: write your code here
+
+        return album;
+    }
+
+    // Note that insertAlbum should return the id that MySQL creates for the new inserted album record
+    public long insertAlbum(Album album) throws MySQLAlbumsException {
+        long id = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement("INSERT into Albums" +
+                    "(artist, name, release_date, sales, genre) " +
+                    "values(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, album.getArtist());
+            st.setString(2, album.getName());
+            st.setLong(3, album.getReleaseDate());
+            st.setDouble(4, album.getSales());
+            st.setString(5, album.getGenre());
+            st.executeUpdate();
+
+            ResultSet keys = st.getGeneratedKeys();
+            keys.next();
+            long newId = keys.getLong(1);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // TODO: write your code here
+
+        return id;
+    }
+
+    public void updateAlbum(Album album) throws MySQLAlbumsException {
+        try {
+            PreparedStatement st = connection.prepareStatement("UPDATE Albums" +
+                    " set artist = ? " +
+                    " , name = ? " +
+                    ", release_date = ?" +
+                    ", sales = ?" +
+                    ", genre = ?" +
+                    " where id = ? ");
+            st.setString(1, album.getArtist());
+            st.setString(2, album.getName());
+            st.setLong(3, album.getReleaseDate());
+            st.setDouble(4, album.getSales());
+            st.setString(5, album.getGenre());
+            st.setLong(6, album.getId());
+            st.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+        // TODO: write your code here
+
+
+
+    public void deleteAlbumById(long id) throws MySQLAlbumsException {
+
+        // TODO: write your code here
+
     }
 
 }
