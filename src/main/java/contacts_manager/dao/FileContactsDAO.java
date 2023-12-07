@@ -1,4 +1,6 @@
-package contacts_manager;
+package contacts_manager.dao;
+
+import contacts_manager.models.Contact;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,7 +23,7 @@ public class FileContactsDAO implements ContactsDAO {
             List<String>  lines = Files.readAllLines(dataFile);
             for (String line : lines) {
                 String[] info = line.split("\\|");
-                Contact contact  = new Contact(info[0], info[1]);
+                Contact contact  = new Contact( info[0], info[1]);
                 contacts.add(contact);
             }
         } catch (IOException e) {

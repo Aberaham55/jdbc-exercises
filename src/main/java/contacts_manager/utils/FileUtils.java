@@ -1,4 +1,6 @@
-package contacts_manager;
+package contacts_manager.utils;
+
+import contacts_manager.models.Contact;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,7 +32,7 @@ public class FileUtils {
         }
     }
 
-    static void writeContactToFile(contacts_manager.Contact contact) {
+    static void writeContactToFile(Contact contact) {
         String contactLine = String.format("%s|%s", contact.getFullName(), contact.getPhoneNumber());
         try {
             Files.write(

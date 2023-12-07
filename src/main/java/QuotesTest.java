@@ -1,11 +1,6 @@
-import com.mysql.cj.jdbc.Driver;
-import config.Config;
-import dao.MySqlQuotesDAO;
-import models.Quote;
+import contacts_manager.dao.MySqlQuotesDAO;
+import contacts_manager.models.Quote;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class QuotesTest {

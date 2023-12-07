@@ -1,8 +1,7 @@
-package contacts_manager;
+package contacts_manager.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.ArrayList;
+import contacts_manager.models.Contact;
+
 import java.util.List;
 
 public interface ContactsDAO {

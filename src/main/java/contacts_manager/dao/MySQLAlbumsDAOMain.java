@@ -1,6 +1,6 @@
-package dao;
+package contacts_manager.dao;
 
-import models.Album;
+import contacts_manager.models.Album;
 
 import java.util.List;
 

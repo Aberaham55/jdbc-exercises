@@ -1,4 +1,4 @@
-package contacts_manager;
+package contacts_manager.models;
 
 public class Contact {
     // note that id is not used in the original Java 2 Contacts Manager
@@ -9,11 +9,11 @@ public class Contact {
 
     @Override
     public String toString() {
-        return "Contact{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
+        return
+                "id: " + id +
+                ", FullName: " + fullName +
+                ", PhoneNumber: " + phoneNumber;
+
     }
 
     public Contact(String fullName, String phoneNumber) {

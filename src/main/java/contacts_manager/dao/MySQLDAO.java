@@ -1,4 +1,4 @@
-package dao;
+package contacts_manager.dao;
 
 import com.mysql.cj.jdbc.Driver;
 import config.Config;

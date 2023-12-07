@@ -1,4 +1,4 @@
-package models;
+package contacts_manager.models;
 
 public class Quote {
     private int id;

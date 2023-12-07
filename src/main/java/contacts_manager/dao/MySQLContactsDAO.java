@@ -1,10 +1,8 @@
-package contacts_manager;
+package contacts_manager.dao;
 
 import com.mysql.cj.jdbc.Driver;
 import config.Config;
-import dao.MySQLAlbumsException;
-import dao.MySQLDAO;
-import models.Album;
+import contacts_manager.models.Contact;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -47,11 +45,10 @@ public class MySQLContactsDAO implements ContactsDAO {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery("SELECT * FROM contacts");
                 while (resultSet.next()){
-                    contacts.add(new Contact(
-                            resultSet.getString("name"),
-                            resultSet.getString("phone")
-
-                    ));
+                    Contact contact = new Contact(resultSet.getString("name"),
+                            resultSet.getString("phone"));
+                    contact.setId(resultSet.getLong("ID"));
+                    contacts.add(contact);
                 }
             } catch (SQLException sqlx) {
                 System.out.println(sqlx.getMessage());
@@ -102,7 +99,7 @@ public class MySQLContactsDAO implements ContactsDAO {
             st.setString(1, "%" + searchTerm + "%");
             ResultSet rs = st.executeQuery();
             while (rs.next()){
-                contacts.add(new Contact(rs.getString("name"),
+                contacts.add(new Contact( rs.getString("name"),
                 rs.getString("phone")
                 ));
             }

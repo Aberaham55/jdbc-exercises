@@ -1,5 +1,10 @@
 package contacts_manager;
 
+import contacts_manager.dao.ContactsDAO;
+import contacts_manager.dao.MySQLContactsDAO;
+import contacts_manager.models.Contact;
+import contacts_manager.utils.Input;
+
 import java.util.List;
 
 public class App {
@@ -17,13 +22,15 @@ public class App {
             switch (option){
                 case 1:
                    List<Contact> contacts = dao.fetchContacts();
-                    System.out.println(contacts);
+                   for(Contact contact : contacts) {
+                       System.out.println(contact);
+                   }
                     break;
 
                 case 2:
                     String fn = input.getString("Give me the full name");
                     String phone = input.getString("Give me the phone number");
-                    contacts_manager.Contact contact = new contacts_manager.Contact(fn, phone);
+                 Contact contact = new Contact( fn, phone);
                     dao.insertContact(contact);
                     break;
                 case 3:

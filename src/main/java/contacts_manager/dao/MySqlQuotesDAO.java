@@ -1,8 +1,6 @@
-package dao;
+package contacts_manager.dao;
 
-import com.mysql.cj.jdbc.Driver;
-import config.Config;
-import models.Quote;
+import contacts_manager.models.Quote;
 
 import java.sql.*;
 import java.util.ArrayList;

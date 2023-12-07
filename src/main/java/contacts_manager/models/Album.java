@@ -1,4 +1,4 @@
-package models;
+package contacts_manager.models;
 
 import lombok.*;
 
