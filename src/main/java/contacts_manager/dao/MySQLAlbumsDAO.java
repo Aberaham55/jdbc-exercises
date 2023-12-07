@@ -52,7 +52,6 @@ public class MySQLAlbumsDAO {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Albums");
 
-
             //TODO: fetch the total number of albums from the albums table and assign it to the local variable
             while (resultSet.next()){
                 count++;
@@ -130,8 +129,9 @@ public class MySQLAlbumsDAO {
     // Note that insertAlbum should return the id that MySQL creates for the new inserted album record
     public long insertAlbum(Album album) throws MySQLAlbumsException {
         long id = 0;
+        PreparedStatement st = null;
         try {
-            PreparedStatement st = connection.prepareStatement("INSERT into Albums" +
+          st = connection.prepareStatement("INSERT into Albums" +
                     "(artist, name, release_date, sales, genre) " +
                     "values(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, album.getArtist());
@@ -139,19 +139,18 @@ public class MySQLAlbumsDAO {
             st.setLong(3, album.getReleaseDate());
             st.setDouble(4, album.getSales());
             st.setString(5, album.getGenre());
-            st.executeUpdate();
+
+            int numInserted = st.executeUpdate();
 
             ResultSet keys = st.getGeneratedKeys();
             keys.next();
-            long newId = keys.getLong(1);
+
+          id = keys.getLong(1);
+            return id;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        // TODO: write your code here
-
-        return id;
     }
 
     public void updateAlbum(Album album) throws MySQLAlbumsException {
@@ -177,13 +176,19 @@ public class MySQLAlbumsDAO {
     }
 
 
-        // TODO: write your code here
+
 
 
 
     public void deleteAlbumById(long id) throws MySQLAlbumsException {
-
-        // TODO: write your code here
+        PreparedStatement st = null;
+        try {
+            st = connection.prepareStatement("DELETE FROM Albums where ID = ?");
+            st.setLong(1, id);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
 
     }
 
